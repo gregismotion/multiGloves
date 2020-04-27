@@ -13,6 +13,13 @@ void handlePage() {
   switchS.role1 = NEXT_PAGE;
   page.refreshDateTime = false;
   switch (page.currentPage) {
+    case -1: {
+      switchS.role0 = SET;
+      switchS.role1 = INCREASE;
+      drawTitle("Timer");
+      drawTimer(0);
+      break;
+    }
     case 0: {
       page.refreshDateTime = true;
       drawDate(rtc.now());

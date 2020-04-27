@@ -20,7 +20,7 @@ struct SwitchState {
   unsigned long lastPress = 0;
 };
 struct SecondaryState {
-  int options[4];
+  char options[4][15];
   int maxOption = 4;
   int currentOption = 0;
   int lastOption = 0;

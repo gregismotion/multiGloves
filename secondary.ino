@@ -8,14 +8,13 @@ void setupSecondary() {
   page.refreshDateTime = false;
   switchS.role0 = DOWN;
   switchS.role1 = SELECT;
-  resetSecondaryOptions();
-  secondary.options[0] = "Back";
+  strcpy(secondary.options[0], "Back");
   secondary.maxOption = 1;
   switch (page.currentPage) {
     case 0: {
-      secondary.options[1] = "Sync time (BT)";
-      secondary.options[2] = "Timer";
-      secondary.options[3] = "Stopwatch";
+      strcpy(secondary.options[1], "Sync time (BT)");
+      strcpy(secondary.options[2], "Timer");
+      strcpy(secondary.options[3], "Stopwatch");
       secondary.maxOption += 3;
       break;
     }
@@ -38,11 +37,16 @@ void handleSecondary() {
   }
 }
 
+void resetSecondary() {
+  secondary.currentOption = 0;
+  resetSecondaryOptions();
+  secondary.toggleSecondary = true;
+}
+
 void selectSecondary() {
   if (secondary.currentOption == 0) {
     page.refreshDateTime = true;
     page.currentPage = 0;
-    secondary.toggleSecondary = true;
     page.toggleChange = true;
   }
   switch(page.currentPage) {
@@ -53,10 +57,16 @@ void selectSecondary() {
           syncTimeBt();
           break;
         }
+        case 2: {
+          page.currentPage = -1;
+          page.toggleChange = true;
+          break;
+        }
       }
       break;
     }
   }
+  resetSecondary();
 }
 
 void incrementSecondary() {
