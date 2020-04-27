@@ -4,7 +4,8 @@ const char BT_DELIMITER[1] = ";";
 void initRtc(RTC_DS3231 rtc) {
   rtc.begin();
   if (rtc.lostPower()) {
-      //syncTime();
+      drawSyncTime();
+      syncTimeBt();
   }
 }
 

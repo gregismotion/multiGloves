@@ -2,7 +2,8 @@ U8X8_SH1106_128X64_NONAME_HW_I2C u8x8(U8X8_PIN_NONE);
 
 void initScreen() {
   u8x8.begin();
-  u8x8.setPowerSave(0);  
+  u8x8.setBusClock(200000);
+  u8x8.setPowerSave(0);
 }
 
 void formatTime(char* timeBuf, int hour, int minute) {
@@ -33,4 +34,23 @@ void drawBattery(int percentage) {
   formatBattery(batteryBuf, percentage);
   u8x8.setFont(u8x8_font_amstrad_cpc_extended_r);
   u8x8.drawString(11, 0, batteryBuf);
+}
+
+void drawSyncTime() {
+  u8x8.setFont(u8x8_font_amstrad_cpc_extended_r);
+  u8x8.drawString(0, 0, "Sync time by BT");
+}
+
+void drawTitle(char* output) {
+  u8x8.setFont(u8x8_font_amstrad_cpc_extended_r);
+  u8x8.setInverseFont(1);
+  u8x8.drawString(0, 0, output);
+  u8x8.setInverseFont(0);
+}
+
+void drawOption(int pos, char* output, bool selected) {
+  u8x8.setFont(u8x8_font_amstrad_cpc_extended_r);
+  u8x8.setInverseFont(selected);
+  u8x8.drawString(0, pos + 2, output);
+  u8x8.setInverseFont(0);
 }
