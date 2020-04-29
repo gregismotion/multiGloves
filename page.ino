@@ -14,10 +14,15 @@ void handlePage() {
   page.refreshDateTime = false;
   switch (page.currentPage) {
     case -1: {
-      switchS.role0 = SET;
-      switchS.role1 = INCREASE;
+      if (timer.isGoing) {
+        switchS.role0 = MAIN;
+        switchS.role1 = START_STOP;
+      } else {
+        switchS.role0 = SET;
+        switchS.role1 = INCREASE;
+      }
       drawTitle("Timer");
-      drawTimer(0);
+      drawTimer(timer, true);
       break;
     }
     case 0: {

@@ -27,6 +27,21 @@ void handleSwitch() {
           incrementSecondary();
           break;
         }
+        case SET: {
+          setTimer();
+          break;
+        }
+        case MAIN: {
+          page.currentPage = 0;
+          page.toggleChange = true;
+          break;
+        }
+        case RESET: {
+          resetTimer();
+          page.toggleChange = true;
+          timer.toggleChange = true;
+          break;
+        }
       }
     }
     if (switchS.flag1) {
@@ -38,6 +53,13 @@ void handleSwitch() {
         case SELECT: {
           selectSecondary();
           break;
+        }
+        case INCREASE: {
+          incrementTimer();
+          break;
+        }
+        case START_STOP: {
+          startStopTimer();
         }
       }
     }

@@ -57,18 +57,78 @@ void drawOption(int pos, char* output, bool selected) {
   u8x8.setInverseFont(0);
 }
 
-void drawTimer(int selectedBlock) {
-  u8x8.setFont(u8x8_font_courB18_2x3_n);
-  u8x8.setInverseFont(selectedBlock == 0);
-  u8x8.setCursor(0, 3);
-  u8x8.print("00");
-  u8x8.setInverseFont(0);
-  u8x8.print(":");
-  u8x8.setInverseFont(selectedBlock == 1);
-  u8x8.print("00");
-  u8x8.setInverseFont(0);
-  u8x8.print(":");
-  u8x8.setInverseFont(selectedBlock == 2);
-  u8x8.print("00");
-  u8x8.setInverseFont(0);
+void formatTimerValue(char* out, int in) {
+  snprintf(out, 3, "%02d", in);
+}
+void drawBlock(int block, char* out) {
+  int x = 0;
+  int y = 3;
+  u8x8.setFont(u8x8_font_inb21_2x4_n);
+  switch(block) {
+    case -1: {
+      u8x8.setCursor(x + 4, y);
+      u8x8.print(out);
+      u8x8.setCursor(x + 10, y);
+      u8x8.print(out);
+      break;
+    }
+    case 0: {
+      u8x8.setCursor(x, y);
+      u8x8.print(out);
+      break;
+    }
+    case 1: {
+      u8x8.setCursor(x + 6, y);
+      u8x8.print(out);
+      break;
+    }
+    case 2: {
+      u8x8.setFont(u8x8_font_7x14B_1x2_n);
+      u8x8.setCursor(x + 12, y + 2);
+      u8x8.print(out); 
+      break;
+    }
+  }
+}
+void drawTimer(TimerState timer, bool fullRefresh = false) {
+  char delimiter[2] = ":";
+  if (timer.firstRefresh) {
+    drawBlock(-1, delimiter);
+  }
+  switch (timer.mode) {
+    case SET_T: {
+      char tempBuf[2];
+      for (int i = 0; i < sizeof(timer.blocks) / sizeof(*(timer.blocks)); i++) {
+        u8x8.setInverseFont(timer.currentBlock == i);
+        formatTimerValue(tempBuf, timer.blocks[i]);
+        drawBlock(i, tempBuf);  
+      }
+      u8x8.setInverseFont(0);
+      break;
+    }
+    case COUNTDOWN_T: {
+      char tempBuf[2];
+      u8x8.setInverseFont(!timer.isGoing);
+      for (int i = 0; i < sizeof(timer.blocks) / sizeof(*(timer.blocks)); i++) {
+        if (timer.blocks[i] != timer.lastBlocks[i] || fullRefresh) {
+          formatTimerValue(tempBuf, timer.blocks[i]);
+          drawBlock(i, tempBuf);
+        }   
+      }
+      u8x8.setInverseFont(0);
+      break;
+    }
+    case FINISHED_T: {
+      char finished[3] = "00";
+      u8x8.setInverseFont(1);
+      if (timer.firstRefresh) {
+        drawBlock(-1, delimiter);
+      }
+      for (int i = 0; i < sizeof(timer.blocks) / sizeof(*(timer.blocks)); i++) {
+        drawBlock(i, finished);  
+      }
+      u8x8.setInverseFont(0);
+      break;
+    }
+  }
 }

@@ -9,7 +9,7 @@ struct PageState {
   unsigned long lastPress = 0;
   bool refreshDateTime = false;
 };
-enum SwitchRole { NEXT_PAGE, DOWN, SELECT, SECONDARY, SET, INCREASE, MAIN, START_STOP };
+enum SwitchRole { NEXT_PAGE, DOWN, SELECT, SECONDARY, SET, INCREASE, MAIN, START_STOP, RESET };
 struct SwitchState {
   const int pin0 = 2;
   const int pin1 = 3;
@@ -29,11 +29,27 @@ struct SecondaryState {
   bool toggleChange = false;
   bool drawAll = false;
 };
+enum TimerMode { SET_T, COUNTDOWN_T, FINISHED_T };
+struct TimerState {
+  int currentBlock = 0;
+  bool toggleChange = false;
+  int mode = SET_T;
+  int blocks[3] = { 0, 0, 0 };
+  int lastBlocks[3] = { 0, 0, 0 };
+  DateTime startTime;
+  DateTime targetTime;
+  TimeSpan stopDiff;
+  bool firstRefresh = true;
+  bool isGoing = false;
+};
+
+void drawTimer(TimerState timer, bool fullRefresh = false); //AH GOD ARDUINO BUILD CANT CREATE IT'S PROTOTYPE COME ON
 
 RTC_DS3231 rtc;
 PageState page;
 SecondaryState secondary;
 SwitchState switchS;
+TimerState timer;
 DateTime lastRefresh;
 
 void setup() {
@@ -72,5 +88,15 @@ void loop() {
   if (secondary.toggleChange && secondary.isOn) {
     handleSecondary();
     secondary.toggleChange = false;
+  }
+  if (timer.mode == COUNTDOWN_T) {
+    doCountdown();
+  } else if (timer.mode == FINISHED_T) {
+    timer.toggleChange = true;
+    resetTimer();
+  }
+  if (timer.toggleChange && page.currentPage == -1) {
+    drawTimer(timer);
+    timer.toggleChange = false;
   }
 }
