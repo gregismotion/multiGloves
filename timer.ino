@@ -3,45 +3,30 @@ void startStopTimer() {
     timer.isGoing = !timer.isGoing;
     timer.stopDiff = timer.targetTime - rtc.now();
     drawTimer(timer, true);
-  }
-  if (timer.isGoing) {
-    switchS.role0 = MAIN;
-  } else {
-    switchS.role0 = RESET;
+    switchS.role0 = timer.isGoing ? MAIN : RESET;
   }
 }
 
 void resetTimer() {
-  DateTime now = rtc.now();
-  timer.currentBlock = 0;
-  timer.toggleChange = false;
-  timer.mode = SET_T;
-  timer.startTime = now;
-  timer.targetTime = now;
-  timer.firstRefresh = true;
-  for (int i = 0; i < sizeof(timer.blocks) / sizeof(*(timer.blocks)); i++) {
-    timer.blocks[i] = 0;
-    timer.lastBlocks[i] = 0;
-  }
-  timer.isGoing = false;
+  timer = TimerState();
 }
 
 void doCountdown() {
+  DateTime now = rtc.now();
   if (timer.isGoing) {
-    TimeSpan diff = timer.targetTime - rtc.now();
+    TimeSpan diff = timer.targetTime - now;
     if (diff.totalseconds() == 0) {
       timer.mode = FINISHED_T; 
     } else {
-      timer.lastBlocks[0] = timer.blocks[0];
-      timer.blocks[0] = diff.hours();
-      timer.lastBlocks[1] = timer.blocks[1];
-      timer.blocks[1] = diff.minutes(); 
-      timer.lastBlocks[2] = timer.blocks[2];
-      timer.blocks[2] = diff.seconds();
+      int blocks[3] = { diff.hours(), diff.minutes(), diff.seconds() };
+      for (int i = 0; i < sizeof(timer.blocks) / sizeof(*(timer.blocks)); i++) {
+        timer.lastBlocks[i] = timer.blocks[i];
+        timer.blocks[i] = blocks[i];
+      }
     }
-    timer.toggleChange = true; 
+    timer.toggleChange = true;
   } else {
-    timer.targetTime = rtc.now() + timer.stopDiff;
+    timer.targetTime = now + timer.stopDiff;
   }
 }
 
@@ -63,14 +48,19 @@ void setTimer() {
 }
 
 void incrementTimer() {
-  int limit = 59;
-  if (timer.currentBlock == 0) {
-    limit = 99;
-  }
-  if (timer.blocks[timer.currentBlock] < limit) {
-    timer.blocks[timer.currentBlock]++;
-  } else {
-    timer.blocks[timer.currentBlock] = 0;
-  }
+  timer.blocks[timer.currentBlock] += timer.blocks[timer.currentBlock] < (timer.currentBlock == 0 ? 99 : 59) ? 1 : -timer.blocks[timer.currentBlock];
   timer.toggleChange = true;
+}
+
+void checkTimer() {
+  if (timer.mode == COUNTDOWN_T) {
+    doCountdown();
+  } else if (timer.mode == FINISHED_T) {
+    timer.toggleChange = true;
+    resetTimer();
+  }
+  if (timer.toggleChange && page.currentPage == -1) {
+    drawTimer(timer);
+    timer.toggleChange = false;
+  }
 }

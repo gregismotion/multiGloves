@@ -14,9 +14,10 @@ void setupSwitches() {
   attachInterrupt(digitalPinToInterrupt(switchS.pin1), switch1Changed, CHANGE);
 }
 
-void handleSwitch() {  
-  if (millis() - switchS.lastPress >= SWITCH_DELAY) {
-    switchS.lastPress = millis();
+void handleSwitch() {
+  unsigned long currentMillis = millis();
+  if (currentMillis - switchS.lastPress >= SWITCH_DELAY) {
+    switchS.lastPress = currentMillis;
     if (switchS.flag0) {
       switch (switchS.role0) {
         case SECONDARY: {
@@ -63,5 +64,11 @@ void handleSwitch() {
         }
       }
     }
+  }
+}
+
+void checkSwitch() {
+  if (switchS.flag0 || switchS.flag1) {
+    handleSwitch();
   }
 }

@@ -13,6 +13,12 @@ void handlePage() {
   switchS.role1 = NEXT_PAGE;
   page.refreshDateTime = false;
   switch (page.currentPage) {
+    case -2: {
+      switchS.role0 = MAIN;
+      switchS.role1 = START_STOP;
+      drawTitleF(F("Stopwatch"));
+      break;
+    }
     case -1: {
       if (timer.isGoing) {
         switchS.role0 = MAIN;
@@ -21,7 +27,7 @@ void handlePage() {
         switchS.role0 = SET;
         switchS.role1 = INCREASE;
       }
-      drawTitle("Timer");
+      drawTitleF(F("Timer"));
       drawTimer(timer, true);
       break;
     }
@@ -36,5 +42,16 @@ void handlePage() {
       drawDate(rtc.now());
       break;
     }
+  }
+}
+
+void checkPage() {
+  if (page.toggleChange) {
+    handlePage();
+    page.toggleChange = false;
+  }
+  if (page.refreshDateTime) {
+    refreshTime();
+    refreshDate();
   }
 }

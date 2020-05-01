@@ -26,7 +26,7 @@ void setupSecondary() {
 void handleSecondary() {
   if (secondary.drawAll) {
     u8x8.clearDisplay();
-    drawTitle("Secondary");
+    drawTitleF(F("Secondary"));
     for (int i = 0; i < secondary.maxOption; i++) {
       drawOption(i, secondary.options[i], secondary.currentOption == i);
     }
@@ -62,6 +62,10 @@ void selectSecondary() {
           page.toggleChange = true;
           break;
         }
+        case 3: {
+          page.currentPage = -2;
+          page.toggleChange = true;
+        }
       }
       break;
     }
@@ -77,4 +81,18 @@ void incrementSecondary() {
     secondary.currentOption = 0; 
   }
   secondary.toggleChange = true;
+}
+
+void checkSecondary() {
+  if (secondary.toggleSecondary) {
+    secondary.isOn = !secondary.isOn;
+    if (secondary.isOn) {
+      setupSecondary();
+    }
+    secondary.toggleSecondary = false;
+  }
+  if (secondary.toggleChange && secondary.isOn) {
+    handleSecondary();
+    secondary.toggleChange = false;
+  }
 }

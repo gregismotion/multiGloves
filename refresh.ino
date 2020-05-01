@@ -1,13 +1,13 @@
 void refreshTime() {
   DateTime now = rtc.now();
-  if (now.hour() != lastRefresh.hour() || now.minute() != lastRefresh.minute()) {
+  if (now.hour() != page.lastDateTimeRefresh.hour() || now.minute() != page.lastDateTimeRefresh.minute()) {
     drawTime(now);
   }
 }
 
 void refreshDate() {
   DateTime now = rtc.now();
-  if (now.year() != lastRefresh.year() || now.month() != lastRefresh.month() || now.day() != lastRefresh.day()) {
+  if (now.year() != page.lastDateTimeRefresh.year() || now.month() != page.lastDateTimeRefresh.month() || now.day() != page.lastDateTimeRefresh.day()) {
     drawDate(now);
   }
 }

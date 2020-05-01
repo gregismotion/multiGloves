@@ -28,3 +28,8 @@ void syncTimeBt() {
 bool isReceiving() {
   return btSerial.available();
 }
+
+void checkBt() {
+  /*if (isReceiving()) {
+  }*/
+}
