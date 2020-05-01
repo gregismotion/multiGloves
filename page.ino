@@ -17,6 +17,7 @@ void handlePage() {
       switchS.role0 = MAIN;
       switchS.role1 = START_STOP;
       drawTitleF(F("Stopwatch"));
+      drawStopwatch(stopwatch);
       break;
     }
     case -1: {

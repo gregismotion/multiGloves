@@ -160,7 +160,7 @@ void drawTimer(TimerState timer, bool fullRefresh = false) {
   }
 }
 
-/*void drawStopwatch(StopwatchState stopwatch) {
+void drawStopwatch(StopwatchState stopwatch) {
   int x = 4;
   int y = 2;
   char tempBuf[2];
@@ -172,4 +172,4 @@ void drawTimer(TimerState timer, bool fullRefresh = false) {
     }
   }
   stopwatch.firstRefresh = false;
-}*/
+}

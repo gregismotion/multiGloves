@@ -33,6 +33,7 @@ void handleSwitch() {
           break;
         }
         case MAIN: {
+          resetStopwatch();
           page.currentPage = 0;
           page.toggleChange = true;
           break;
@@ -61,6 +62,8 @@ void handleSwitch() {
         }
         case START_STOP: {
           startStopTimer();
+          startStopStopwatch();
+          break;
         }
       }
     }
