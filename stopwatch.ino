@@ -4,8 +4,13 @@ void resetStopwatch() {
 
 void startStopStopwatch() {
 	stopwatch.isGoing = !stopwatch.isGoing;
+	if (!stopwatch.startTimeSaved) {
+		stopwatch.startTime = rtc.now();
+		stopwatch.startTimeSaved = true;
+	}
 	if (!stopwatch.isGoing) {
 		stopwatch.stopDiffSaved = false;
+		stopwatch.startTimeSaved = false;
 	}   
 	switchS.roles[0] = stopwatch.isGoing ? LAP : MAIN;
 }

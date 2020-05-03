@@ -41,14 +41,15 @@ struct TimerState {
   bool isGoing = false;
 };
 struct StopwatchState {
-  int blocks[3] = { 0, 0, 0 };
-  int lastBlocks[3] = { 0, 0, 0 };
-  bool firstRefresh = true;
-  bool toggleChange = false;
-  DateTime startTime;
-  TimeSpan stopDiff;
-  bool stopDiffSaved = false;
-  bool isGoing = false;
+	int blocks[3] = { 0, 0, 0 };
+	int lastBlocks[3] = { 0, 0, 0 };
+	bool firstRefresh = true;
+	bool toggleChange = false;
+	DateTime startTime;
+	TimeSpan stopDiff;
+	bool stopDiffSaved = false;
+	bool startTimeSaved = false;
+	bool isGoing = false;
 };
 
 RTC_DS3231 rtc;
