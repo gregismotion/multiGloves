@@ -35,6 +35,10 @@ void drawBattery(int percentage) {
   u8x8.drawString(11, 0, batteryBuf);
 }
 
+void drawStatusLine() {
+	drawBattery(100);
+}
+
 void drawSyncTime() {
   u8x8.clearDisplay();
   u8x8.setFont(defaultFont);
@@ -44,7 +48,7 @@ void drawSyncTime() {
 void drawTitleF(__FlashStringHelper* output) {
   u8x8.setFont(defaultFont);
   u8x8.setInverseFont(1);
-  u8x8.setCursor(0, 0);
+  u8x8.setCursor(0, 1);
   u8x8.print(output);
   u8x8.setInverseFont(0);
 }
