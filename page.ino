@@ -21,11 +21,11 @@ void handlePage() {
       break;
     }
     case -1: {
-      switchS.roles[0] = timer.isGoing ? MAIN : SET;
-      switchS.roles[1] = timer.isGoing ? START_STOP : INCREASE;
-      drawTitleF(F("Timer"));
-      drawTimer(timer, true);
-      break;
+	switchS.roles[0] = timer.isGoing ? MAIN : SET;
+      	switchS.roles[1] = timer.isGoing ? START_STOP : INCREASE;
+      	drawTitleF(F("Timer"));
+      	drawTimer(timer, true);
+      	break;
     }
     case 0: {
       page.refreshDateTime = true;

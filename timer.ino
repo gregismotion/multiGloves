@@ -1,14 +1,16 @@
 void startStopTimer() {
-  if (page.currentPage == -1 && timer.mode == COUNTDOWN_T) {
-    timer.isGoing = !timer.isGoing;
-    timer.stopDiff = timer.targetTime - rtc.now();
-    drawTimer(timer, true);
-    switchS.roles[0] = timer.isGoing ? MAIN : RESET;
-  }
+	if (page.currentPage == -1 && timer.mode == COUNTDOWN_T) {
+    		timer.isGoing = !timer.isGoing;
+    		timer.stopDiff = timer.targetTime - rtc.now();
+    		switchS.roles[0] = timer.isGoing ? MAIN : RESET;
+		Serial.println(switchS.roles[0] == RESET);
+    		drawTimer(timer, true);
+  	}
 }
 
 void resetTimer() {
-  //timer = TimerState();
+	Serial.println("RESET");
+	timer = TimerState();
 }
 
 void doCountdown() {
