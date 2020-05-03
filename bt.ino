@@ -2,7 +2,6 @@ const int BT_TIMEOUT = 60000 * 3;
 
 AltSoftSerial btSerial;
 
-
 void initBt() {
   btSerial.begin(9600);
 }

@@ -9,25 +9,20 @@ void incrementPage() {
 
 void handlePage() {
   u8x8.clearDisplay();
-  switchS.role0 = SECONDARY;
-  switchS.role1 = NEXT_PAGE;
+  switchS.roles[0] = SECONDARY;
+  switchS.roles[1] = NEXT_PAGE;
   page.refreshDateTime = false;
   switch (page.currentPage) {
     case -2: {
-      switchS.role0 = MAIN;
-      switchS.role1 = START_STOP;
+      switchS.roles[0] = MAIN;
+      switchS.roles[1] = START_STOP;
       drawTitleF(F("Stopwatch"));
       drawStopwatch(stopwatch);
       break;
     }
     case -1: {
-      if (timer.isGoing) {
-        switchS.role0 = MAIN;
-        switchS.role1 = START_STOP;
-      } else {
-        switchS.role0 = SET;
-        switchS.role1 = INCREASE;
-      }
+      switchS.roles[0] = timer.isGoing ? MAIN : SET;
+      switchS.roles[1] = timer.isGoing ? START_STOP : INCREASE;
       drawTitleF(F("Timer"));
       drawTimer(timer, true);
       break;

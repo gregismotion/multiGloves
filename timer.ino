@@ -3,12 +3,12 @@ void startStopTimer() {
     timer.isGoing = !timer.isGoing;
     timer.stopDiff = timer.targetTime - rtc.now();
     drawTimer(timer, true);
-    switchS.role0 = timer.isGoing ? MAIN : RESET;
+    switchS.roles[0] = timer.isGoing ? MAIN : RESET;
   }
 }
 
 void resetTimer() {
-  timer = TimerState();
+  //timer = TimerState();
 }
 
 void doCountdown() {
@@ -34,8 +34,8 @@ void setupTimer() {
   timer.targetTime = rtc.now() + TimeSpan(0, timer.blocks[0], timer.blocks[1], timer.blocks[2]);
   timer.mode = COUNTDOWN_T;
   timer.isGoing = true;
-  switchS.role0 = MAIN;
-  switchS.role1 = START_STOP;
+  switchS.roles[0] = MAIN;
+  switchS.roles[1] = START_STOP;
 }
 
 void setTimer() {

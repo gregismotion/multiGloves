@@ -9,7 +9,7 @@ void startStopStopwatch() {
   } else {
     stopwatch.stopDiffSaved = false;
   }
-  switchS.role0 = stopwatch.isGoing ? LAP : MAIN;
+  switchS.roles[0] = stopwatch.isGoing ? LAP : MAIN;
 }
 
 void doStopwatch() {

@@ -12,12 +12,9 @@ struct PageState {
 };
 enum SwitchRole { NEXT_PAGE, DOWN, SELECT, SECONDARY, SET, INCREASE, MAIN, START_STOP, RESET, LAP };
 struct SwitchState {
-  const int pin0 = 2;
-  const int pin1 = 3;
-  volatile int flag0 = LOW;
-  volatile int flag1 = LOW;
-  int role0 = SECONDARY;
-  int role1 = NEXT_PAGE;
+  const int pins[2] = { 2, 3 };
+  volatile int flags[2] = { LOW, LOW };
+  int roles[2] = { SECONDARY, NEXT_PAGE };
   unsigned long lastPress = 0;
 };
 struct SecondaryState {
@@ -51,11 +48,9 @@ struct StopwatchState {
   DateTime startTime;
   TimeSpan stopDiff;
   bool stopDiffSaved = false;
-  ///bool stopDiffUsed = false;
   bool isGoing = false;
 };
 
-//TODO: pointers instead of instances for temporary things
 RTC_DS3231 rtc;
 PageState page;
 SecondaryState secondary;

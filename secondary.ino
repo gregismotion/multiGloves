@@ -6,8 +6,8 @@ void resetSecondaryOptions() {
 
 void setupSecondary() {
   page.refreshDateTime = false;
-  switchS.role0 = DOWN;
-  switchS.role1 = SELECT;
+  switchS.roles[0] = DOWN;
+  switchS.roles[1] = SELECT;
   strcpy(secondary.options[0], "Back");
   secondary.maxOption = 1;
   switch (page.currentPage) {

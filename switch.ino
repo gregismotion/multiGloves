@@ -1,25 +1,25 @@
 const int SWITCH_DELAY = 500;
 
 void switch0Changed() {
-  switchS.flag0 = digitalRead(switchS.pin0);
+  switchS.flags[0] = digitalRead(switchS.pins[0]);
 }
 void switch1Changed() {
-  switchS.flag1 = digitalRead(switchS.pin1);
+  switchS.flags[1] = digitalRead(switchS.pins[1]);
 }
 
 void setupSwitches() {
-  pinMode(switchS.pin0, INPUT);
-  pinMode(switchS.pin1, INPUT);
-  attachInterrupt(digitalPinToInterrupt(switchS.pin0), switch0Changed, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(switchS.pin1), switch1Changed, CHANGE);
+  pinMode(switchS.pins[0], INPUT);
+  pinMode(switchS.pins[1], INPUT);
+  attachInterrupt(digitalPinToInterrupt(switchS.pins[0]), switch0Changed, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(switchS.pins[1]), switch1Changed, CHANGE);
 }
 
 void handleSwitch() {
   unsigned long currentMillis = millis();
   if (currentMillis - switchS.lastPress >= SWITCH_DELAY) {
     switchS.lastPress = currentMillis;
-    if (switchS.flag0) {
-      switch (switchS.role0) {
+    if (switchS.flags[0]) {
+      switch (switchS.roles[0]) {
         case SECONDARY: {
           secondary.toggleSecondary = true;
           break;
@@ -46,8 +46,8 @@ void handleSwitch() {
         }
       }
     }
-    if (switchS.flag1) {
-      switch (switchS.role1) {
+    if (switchS.flags[1]) {
+      switch (switchS.roles[1]) {
         case NEXT_PAGE: {
           incrementPage();
           break;
@@ -71,7 +71,7 @@ void handleSwitch() {
 }
 
 void checkSwitch() {
-  if (switchS.flag0 || switchS.flag1) {
+  if (switchS.flags[0] || switchS.flags[1]) {
     handleSwitch();
   }
 }
