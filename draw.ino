@@ -1,5 +1,6 @@
 U8X8_SH1106_128X64_NONAME_HW_I2C u8x8(U8X8_PIN_NONE);
 int defaultFont = u8x8_font_amstrad_cpc_extended_r;
+int timeFont = u8x8_font_inb21_2x4_n;
 
 void initScreen() {
   u8x8.begin();
@@ -11,8 +12,8 @@ void formatTime(char* timeBuf, int hour, int minute) {
 void drawTime(DateTime date) {
   char timeBuf[6];
   formatTime(timeBuf, date.hour(), date.minute());
-  u8x8.setFont(u8x8_font_courB24_3x4_n);
-  u8x8.drawString(0, 2, timeBuf);
+  u8x8.setFont(timeFont);
+  u8x8.drawString(3, 2, timeBuf);
 }
 
 void formatDate(char* dateBuf, int year, int month, int day) {
@@ -40,9 +41,8 @@ void drawStatusLine() {
 }
 
 void drawSyncTime() {
-  u8x8.clearDisplay();
-  u8x8.setFont(defaultFont);
-  u8x8.drawString(0, 0, "Sync time by BT");
+	u8x8.clearDisplay();
+	drawTitleF(F("Sync time by BT"));
 }
 
 void drawTitleF(__FlashStringHelper* output) {
@@ -65,7 +65,7 @@ void formatTimerValue(char* out, int in) {
 }
 void drawBlock(int block, char* out, int x = 0,  int y = 0, bool timer = true) {
   if (timer) {
-    u8x8.setFont(u8x8_font_inb21_2x4_n);
+    u8x8.setFont(timeFont);
     switch(block) {
       case -1: {
         u8x8.setCursor(x + 4, y);
@@ -85,8 +85,8 @@ void drawBlock(int block, char* out, int x = 0,  int y = 0, bool timer = true) {
         break;
       }
       case 2: {
-        u8x8.setFont(u8x8_font_7x14B_1x2_n);
-        u8x8.setCursor(x + 12, y + 2);
+        u8x8.setFont(defaultFont);
+        u8x8.setCursor(x + 12, y + 3);
         u8x8.print(out); 
         break;
       }
@@ -167,8 +167,8 @@ void drawTimer(TimerState timer, bool fullRefresh = false) {
 void drawStopwatch(StopwatchState stopwatch) {
   int x = 4;
   int y = 2;
-  char tempBuf[2];
   drawBlock(-1, ":", x, y, false);
+	char tempBuf[3];
   for (int i = 0; i < sizeof(stopwatch.blocks) / sizeof(*(stopwatch.blocks)); i++) {
     if (stopwatch.blocks[i] != stopwatch.lastBlocks[i] || stopwatch.firstRefresh) {
       formatTimerValue(tempBuf, stopwatch.blocks[i]); //EVIL: HAS WEIRD SIDE EFFECTS 
