@@ -171,7 +171,7 @@ void drawStopwatch(StopwatchState stopwatch) {
   drawBlock(-1, ":", x, y, false);
   for (int i = 0; i < sizeof(stopwatch.blocks) / sizeof(*(stopwatch.blocks)); i++) {
     if (stopwatch.blocks[i] != stopwatch.lastBlocks[i] || stopwatch.firstRefresh) {
-      formatTimerValue(tempBuf, stopwatch.blocks[i]);
+      formatTimerValue(tempBuf, stopwatch.blocks[i]); //EVIL: HAS WEIRD SIDE EFFECTS 
       drawBlock(i, tempBuf, x, y, false);
     }
   }
