@@ -30,7 +30,7 @@ void doStopwatch() {
 }
 
 void addLap(TimeSpan diff) {
-	stopwatch.lapCount++;
+	stopwatch.lapCount += (stopwatch.lapCount < 999) ? 1 : (-stopwatch.lapCount) + 1;
 	drawLap(stopwatch.lapCount, diff);
 }
 void lapStopwatch() {
