@@ -177,3 +177,17 @@ void drawStopwatch(StopwatchState stopwatch) {
   }
   stopwatch.firstRefresh = false;
 }
+
+void formatLap(char* out, int currentLap, int hour, int minute, int second) {
+	snprintf(out, 16, "%d. %02d:%02d:%02d", currentLap, hour, minute, second);
+}
+void drawLap(int currentLap, TimeSpan diff) {
+	int y = 3;
+	int y_offset = currentLap;
+	while (y_offset >= 5) {
+		y_offset -= 4;
+	}
+	char tempBuf[15];
+	formatLap(tempBuf, currentLap, diff.hours(), diff.minutes(), diff.seconds());
+	u8x8.drawString(0, y + y_offset, tempBuf);
+}

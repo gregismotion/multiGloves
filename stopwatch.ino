@@ -4,15 +4,15 @@ void resetStopwatch() {
 
 void startStopStopwatch() {
 	stopwatch.isGoing = !stopwatch.isGoing;
-	if (!stopwatch.stopDiffSaved) {
-		stopwatch.stopDiff = rtc.now() - stopwatch.startTime;
-		stopwatch.stopDiffSaved = true;
-	}
-	stopwatch.startTime = rtc.now();
 	if (!stopwatch.isGoing && !stopwatch.stopDone) {
 		stopwatch.stopDiffSaved = false;
 		stopwatch.stopDone = true;
 	}   
+	if (!stopwatch.stopDiffSaved) {
+		stopwatch.stopDiff = stopwatch.stopDiff + (rtc.now() - stopwatch.startTime);
+		stopwatch.stopDiffSaved = true;
+	}
+	stopwatch.startTime = rtc.now();
 	switchS.roles[0] = stopwatch.isGoing ? LAP : MAIN;
 }
 
@@ -27,6 +27,15 @@ void doStopwatch() {
 	    	}
 		stopwatch.toggleChange = true;
 	}
+}
+
+void addLap(TimeSpan diff) {
+	stopwatch.lapCount++;
+	drawLap(stopwatch.lapCount, diff);
+}
+void lapStopwatch() {
+	TimeSpan diff = rtc.now() - (stopwatch.startTime - stopwatch.stopDiff);
+	addLap(diff);
 }
 
 void checkStopwatch() {

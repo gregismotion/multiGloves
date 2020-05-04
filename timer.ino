@@ -3,13 +3,11 @@ void startStopTimer() {
     		timer.isGoing = !timer.isGoing;
     		timer.stopDiff = timer.targetTime - rtc.now();
     		switchS.roles[0] = timer.isGoing ? MAIN : RESET;
-		Serial.println(switchS.roles[0] == RESET);
     		drawTimer(timer, true);
   	}
 }
 
 void resetTimer() {
-	Serial.println("RESET");
 	timer = TimerState();
 }
 

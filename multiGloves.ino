@@ -51,6 +51,7 @@ struct StopwatchState {
 	bool stopDone = false;
 	bool firstStart = true;
 	bool isGoing = false;
+	int lapCount = 0;
 };
 
 RTC_DS3231 rtc;
