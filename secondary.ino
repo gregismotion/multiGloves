@@ -25,8 +25,7 @@ void setupSecondary() {
 
 void handleSecondary() {
   if (secondary.drawAll) {
-    u8x8.clearDisplay();
-	drawStatusLine();
+	u8x8.clearDisplay();
     drawTitleF(F("Secondary"));
     for (int i = 0; i < secondary.maxOption; i++) {
       drawOption(i, secondary.options[i], secondary.currentOption == i);

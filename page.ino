@@ -12,7 +12,6 @@ void handlePage() {
   	switchS.roles[0] = SECONDARY;
 	switchS.roles[1] = NEXT_PAGE;
 	page.refreshDateTime = false;
-      	drawStatusLine();
 	switch (page.currentPage) {
 		case -2: {
 			switchS.roles[0] = MAIN;
@@ -30,12 +29,13 @@ void handlePage() {
 		}
 		case 0: {
 			page.refreshDateTime = true;
+			drawTitleF(F("Time & Date"));
 			drawDate(rtc.now());
 			drawTime(rtc.now());
 			break;  
 		}
 		case 1: {
-			drawDate(rtc.now());
+			drawTitleF(F("Notifications"));
 			break;
 		}
 	}

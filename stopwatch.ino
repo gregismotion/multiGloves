@@ -39,11 +39,11 @@ void lapStopwatch() {
 }
 
 void checkStopwatch() {
-  if (page.currentPage == -2) {
-    doStopwatch();
-    if (stopwatch.toggleChange) {
-      drawStopwatch(stopwatch);
-      stopwatch.toggleChange = false;
-    }
-  }
+	if (page.currentPage == -2) {
+		doStopwatch();
+		if (stopwatch.toggleChange) {
+			drawStopwatch(stopwatch);
+			stopwatch.toggleChange = false;
+		}
+	}
 }

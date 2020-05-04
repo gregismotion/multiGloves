@@ -36,8 +36,8 @@ void drawBattery(int percentage) {
   u8x8.drawString(11, 0, batteryBuf);
 }
 
-void drawStatusLine() {
-	drawBattery(100);
+void drawStatusLine(StatusLineState statusLine) {
+	drawBattery(statusLine.battery);
 }
 
 void drawSyncTime() {
@@ -171,7 +171,7 @@ void drawStopwatch(StopwatchState stopwatch) {
 	char tempBuf[3];
   for (int i = 0; i < sizeof(stopwatch.blocks) / sizeof(*(stopwatch.blocks)); i++) {
     if (stopwatch.blocks[i] != stopwatch.lastBlocks[i] || stopwatch.firstRefresh) {
-      formatTimerValue(tempBuf, stopwatch.blocks[i]); //EVIL: HAS WEIRD SIDE EFFECTS 
+      formatTimerValue(tempBuf, stopwatch.blocks[i]);
       drawBlock(i, tempBuf, x, y, false);
     }
   }
@@ -190,4 +190,10 @@ void drawLap(int currentLap, TimeSpan diff) {
 	char tempBuf[15];
 	formatLap(tempBuf, currentLap, diff.hours(), diff.minutes(), diff.seconds());
 	u8x8.drawString(0, y + y_offset, tempBuf);
+}
+
+void drawScrollingList(char** elems, int currentElem = -1, int x = 0, int y = 0, int height = 7) {
+	for(int i = 0; i < sizeof(elems)/sizeof(*elems); i++) {
+		
+	}
 }

@@ -29,6 +29,7 @@ bool isReceiving() {
 }
 
 void checkBt() {
-  /*if (isReceiving()) {
-  }*/
+	if (isReceiving()) {
+		//	
+	}
 }
