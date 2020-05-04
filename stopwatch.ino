@@ -4,19 +4,21 @@ void resetStopwatch() {
 
 void startStopStopwatch() {
 	stopwatch.isGoing = !stopwatch.isGoing;
-	if (!stopwatch.startTimeSaved) {
-		stopwatch.startTime = rtc.now();
-		stopwatch.startTimeSaved = true;
+	if (!stopwatch.stopDiffSaved) {
+		stopwatch.stopDiff = rtc.now() - stopwatch.startTime;
+		stopwatch.stopDiffSaved = true;
 	}
-	if (!stopwatch.isGoing) {
+	stopwatch.startTime = rtc.now();
+	if (!stopwatch.isGoing && !stopwatch.stopDone) {
 		stopwatch.stopDiffSaved = false;
-		stopwatch.startTimeSaved = false;
+		stopwatch.stopDone = true;
 	}   
 	switchS.roles[0] = stopwatch.isGoing ? LAP : MAIN;
 }
 
 void doStopwatch() {
 	if (stopwatch.isGoing) {
+		stopwatch.stopDone = false;
 	    	TimeSpan diff = rtc.now() - (stopwatch.startTime - stopwatch.stopDiff);
 		int blocks[3] = { diff.hours(), diff.minutes(), diff.seconds() };
 		for (int i = 0; i < sizeof(stopwatch.blocks) / sizeof(*(stopwatch.blocks)); i++) {
@@ -24,11 +26,6 @@ void doStopwatch() {
 	    		stopwatch.blocks[i] = blocks[i];
 	    	}
 		stopwatch.toggleChange = true;
-	} else {
-		if (!stopwatch.stopDiffSaved) {
-	      		stopwatch.stopDiff = rtc.now() - stopwatch.startTime;
-	      		stopwatch.stopDiffSaved = true;
-	    	}
 	}
 }
 
@@ -36,7 +33,7 @@ void checkStopwatch() {
   if (page.currentPage == -2) {
     doStopwatch();
     if (stopwatch.toggleChange) {
-      drawStopwatch(stopwatch); //EVIL: HAS WEIRD SIDE EFFECTS
+      drawStopwatch(stopwatch);
       stopwatch.toggleChange = false;
     }
   }

@@ -47,8 +47,9 @@ struct StopwatchState {
 	bool toggleChange = false;
 	DateTime startTime;
 	TimeSpan stopDiff;
-	bool stopDiffSaved = false;
-	bool startTimeSaved = false;
+	bool stopDiffSaved = true;
+	bool stopDone = false;
+	bool firstStart = true;
 	bool isGoing = false;
 };
 
