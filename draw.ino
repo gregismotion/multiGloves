@@ -192,8 +192,16 @@ void drawLap(int currentLap, TimeSpan diff) {
 	u8x8.drawString(0, y + y_offset, tempBuf);
 }
 
-void drawScrollingList(char** elems, int currentElem = -1, int x = 0, int y = 0, int height = 7) {
-	for(int i = 0; i < sizeof(elems)/sizeof(*elems); i++) {
-		
+void drawScrollingList(char** elems, int currentElem = 0, int x = 0, int y = 0, int height = 6) {
+	u8x8.setFont(defaultFont);
+	int end = currentElem + height;
+	int offset = 0;
+	for (int i = 0; i < 12; i++) {
+		if (i <= end && i >= currentElem) {
+			u8x8.setInverseFont(i == currentElem);
+			u8x8.drawString(x, y + offset, elems[i]);
+			u8x8.setInverseFont(0);
+			offset++;
+		}
 	}
 }
